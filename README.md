@@ -190,7 +190,3 @@ poetry run pytest
 Взаимодействие с базой данных реализовано через SQLAlchemy.
 
 ---
-
-## Автор
-
-Vladislav Mikhalko
