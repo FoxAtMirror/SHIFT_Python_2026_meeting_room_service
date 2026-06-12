@@ -1,0 +1,35 @@
+services:
+
+  db:
+    image: postgres:16
+
+    container_name: meeting-room-db
+
+    environment:
+      POSTGRES_DB: meeting_room
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: "0000"
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  api:
+
+    build: .
+
+    container_name: meeting-room-api
+
+    ports:
+      - "8000:8000"
+
+    environment:
+      DATABASE_URL: postgresql://postgres:0000@db:5432/meeting_room
+
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
