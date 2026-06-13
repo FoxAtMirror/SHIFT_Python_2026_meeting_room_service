@@ -1,12 +1,4 @@
-from fastapi.testclient import TestClient
-
-from app.main import app
-
-
-client = TestClient(app)
-
-
-def test_register():
+def test_register(client):
 
     response = client.post(
         "/auth/register",
@@ -16,20 +8,32 @@ def test_register():
         }
     )
 
-    assert response.status_code in [200, 400]
+    assert response.status_code == 200
 
-def test_login():
+def test_login(client):
 
     response = client.post(
         "/auth/login",
         data={
-            "username": "vlad",
-            "password": "12345"
+            "username": "test_user_1",
+            "password": "wrong_password"
         }
     )
 
-    assert response.status_code == 200
+    assert response.status_code == 401
 
     data = response.json()
 
-    assert "access_token" in data
+    assert data["detail"] == "Invalid login or password"
+
+
+def test_invalid_token(client):
+
+    response = client.get(
+        "/auth/me",
+        headers={
+            "Authorization": "Bearer invalid_token"
+        }
+    )
+
+    assert response.status_code == 401

@@ -1,6 +1,9 @@
 from fastapi import FastAPI
 
-from app.db.database import engine
+from app.db.test_database import (
+    engine,
+    TestingSessionLocal
+)
 from app.db.models import Base
 
 from app.api import auth

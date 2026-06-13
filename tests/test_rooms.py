@@ -1,11 +1,4 @@
-from fastapi.testclient import TestClient
-
-from app.main import app
-
-client = TestClient(app)
-
-
-def test_get_rooms():
+def test_get_rooms(client):
 
     response = client.get("/rooms")
 
@@ -16,13 +9,18 @@ def test_get_rooms():
         list
     )
 
-def test_create_room():
+def test_create_room(client):
 
     response = client.post(
         "/rooms",
         json={
-            "name": "Conference Room Test"
+            "name": "Test Room"
         }
     )
 
     assert response.status_code == 200
+
+    data = response.json()
+
+    assert "id" in data
+    assert data["name"] == "Test Room"

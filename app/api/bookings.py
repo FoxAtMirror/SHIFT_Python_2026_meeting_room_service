@@ -120,7 +120,7 @@ def delete_booking(
         "message": "Booking deleted"
     }
 
-@router.get("")
+@router.get("/")
 def get_all_bookings(
     db: Session = Depends(get_db),
     admin: User = Depends(get_admin_user)
