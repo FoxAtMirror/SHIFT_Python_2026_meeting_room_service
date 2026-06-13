@@ -5,5 +5,6 @@ __pycache__/
 .idea/
 .vscode/
 .env
+.env.docker
 postgres_data/
 .DS_Store
