@@ -21,6 +21,7 @@ services:
 
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql
 
   api:
 
@@ -31,8 +32,9 @@ services:
     ports:
       - "8000:8000"
 
-    environment:
-      DATABASE_URL: postgresql://postgres:0000@db:5432/meeting_room
+    env_file:
+      - .env.docker
+        
 
     depends_on:
       db:

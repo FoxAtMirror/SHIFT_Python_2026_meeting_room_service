@@ -1,12 +1,10 @@
-from fastapi import APIRouter, Depends, HTTPException
-
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from app.db.database import get_db
-from app.db.models import (
-    Booking,
-    User
-)
+from app.db.models import User
+
+from app.services.booking_service import BookingService
 
 from app.schemas.booking import (
     BookingCreate,
@@ -33,37 +31,11 @@ def create_booking(
     current_user: User = Depends(get_current_user)
 ):
 
-    existing_booking = (
-        db.query(Booking)
-        .filter(
-            Booking.room_id == booking.room_id,
-            Booking.slot_id == booking.slot_id,
-            Booking.date == booking.date
-        )
-        .first()
+    return BookingService.create_booking(
+        db,
+        booking,
+        current_user.id
     )
-
-    if existing_booking:
-
-        raise HTTPException(
-            status_code=400,
-            detail="Slot already booked"
-        )
-
-    db_booking = Booking(
-        room_id=booking.room_id,
-        slot_id=booking.slot_id,
-        date=booking.date,
-        user_id=current_user.id
-    )
-
-    db.add(db_booking)
-
-    db.commit()
-
-    db.refresh(db_booking)
-
-    return db_booking
 
 @router.get(
     "/my",
@@ -74,12 +46,9 @@ def get_my_bookings(
     current_user: User = Depends(get_current_user)
 ):
 
-    return (
-        db.query(Booking)
-        .filter(
-            Booking.user_id == current_user.id
-        )
-        .all()
+    return BookingService.get_user_bookings(
+    db,
+    current_user.id
     )
 
 @router.delete("/{booking_id}")
@@ -89,41 +58,21 @@ def delete_booking(
     current_user: User = Depends(get_current_user)
 ):
 
-    booking = (
-        db.query(Booking)
-        .filter(Booking.id == booking_id)
-        .first()
+    BookingService.delete_booking(
+    db,
+    booking_id,
+    current_user
     )
-
-    if not booking:
-
-        raise HTTPException(
-            status_code=404,
-            detail="Booking not found"
-        )
-
-    if (
-        booking.user_id != current_user.id
-        and current_user.role != "admin"
-    ):
-
-        raise HTTPException(
-            status_code=403,
-            detail="Access denied"
-        )
-
-    db.delete(booking)
-
-    db.commit()
 
     return {
         "message": "Booking deleted"
     }
 
-@router.get("/")
+@router.get(
+    "/",
+    dependencies=[Depends(get_admin_user)]
+)
 def get_all_bookings(
-    db: Session = Depends(get_db),
-    admin: User = Depends(get_admin_user)
+    db: Session = Depends(get_db)
 ):
-
-    return db.query(Booking).all()
+    return BookingService.get_all_bookings(db)

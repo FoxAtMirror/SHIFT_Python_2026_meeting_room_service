@@ -2,7 +2,8 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from app.db.database import get_db
-from app.db.models import Slot
+
+from app.services.slot_service import SlotService
 
 from app.schemas.slot import (
     SlotCreate,
@@ -24,19 +25,10 @@ def create_slot(
     db: Session = Depends(get_db)
 ):
 
-    db_slot = Slot(
-        room_id=slot.room_id,
-        start_time=slot.start_time,
-        end_time=slot.end_time
-    )
-
-    db.add(db_slot)
-
-    db.commit()
-
-    db.refresh(db_slot)
-
-    return db_slot
+    return SlotService.create_slot(
+    db,
+    slot
+)
 
 @router.get(
     "/room/{room_id}",
@@ -47,8 +39,7 @@ def get_room_slots(
     db: Session = Depends(get_db)
 ):
 
-    return (
-        db.query(Slot)
-        .filter(Slot.room_id == room_id)
-        .all()
+    return SlotService.get_room_slots(
+        db,
+        room_id
     )

@@ -1,15 +1,15 @@
 from datetime import date
-from pydantic import BaseModel, ConfigDict
 
-
+from pydantic import (
+    BaseModel,
+    ConfigDict
+)
 
 class BookingCreate(BaseModel):
 
     room_id: int
     slot_id: int
     date: date
-
-
 
 class BookingResponse(BaseModel):
 
@@ -18,7 +18,6 @@ class BookingResponse(BaseModel):
     slot_id: int
     date: date
 
-
-    class Config:
-
-        from_attributes = True
+    model_config = ConfigDict(
+        from_attributes=True
+    )

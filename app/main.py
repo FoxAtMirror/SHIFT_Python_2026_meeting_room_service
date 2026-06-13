@@ -1,23 +1,30 @@
 from fastapi import FastAPI
-
-from app.db.test_database import (
-    engine,
-    TestingSessionLocal
+from contextlib import asynccontextmanager
+from app.db.database import engine, Base
+from app.db.models import (
+    User,
+    Room,
+    Slot,
+    Booking
 )
-from app.db.models import Base
-
-from app.api import auth
-from app.api import rooms
-from app.api import slots
-from app.api import bookings
-
-Base.metadata.create_all(
-    bind=engine
+from app.api import (
+    auth,
+    rooms,
+    slots,
+    bookings
 )
+
+@asynccontextmanager
+async def lifespan(app):
+
+    Base.metadata.create_all(bind=engine)
+
+    yield
 
 
 app = FastAPI(
-    title="Meeting Room Booking Service"
+    title="Meeting Room Booking Service",
+    lifespan=lifespan
 )
 
 app.include_router(

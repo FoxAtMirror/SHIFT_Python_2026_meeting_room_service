@@ -6,8 +6,6 @@ from app.core.security import (
     verify_password
 )
 
-
-
 def create_user(
     db: Session,
     login: str,
@@ -30,17 +28,11 @@ def create_user(
         role="employee"
     )
 
-
     db.add(user)
-
     db.commit()
-
     db.refresh(user)
 
-
     return user
-
-
 
 def authenticate_user(
     db: Session,
