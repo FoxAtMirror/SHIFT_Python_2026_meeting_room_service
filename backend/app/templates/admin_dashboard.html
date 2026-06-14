@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Панель администратора</h2>
+
+<p>
+    Добро пожаловать, {{ current_user.login }}
+</p>
+
+<div class="list-group">
+
+    <a
+        href="/admin/rooms"
+        class="list-group-item"
+    >
+        Управление комнатами
+    </a>
+
+    <a
+        href="/admin/slots"
+        class="list-group-item"
+    >
+        Управление слотами
+    </a>
+
+    <a
+        href="#"
+        class="list-group-item"
+    >
+        Все бронирования
+    </a>
+
+</div>
+
+{% endblock %}

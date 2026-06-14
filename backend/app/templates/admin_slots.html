@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Управление слотами</h2>
+
+<form
+    method="post"
+    action="/admin/slots"
+    class="mb-4"
+>
+
+    <div class="mb-3">
+
+        <label class="form-label">
+            Комната
+        </label>
+
+        <select
+            name="room_id"
+            class="form-select"
+        >
+
+            {% for room in rooms %}
+
+            <option
+                value="{{ room.id }}"
+            >
+                {{ room.name }}
+            </option>
+
+            {% endfor %}
+
+        </select>
+
+    </div>
+
+    <div class="mb-3">
+
+        <label class="form-label">
+            Время начала
+        </label>
+
+        <input
+            type="text"
+            name="start_time"
+            class="form-control"
+            placeholder="09:00"
+            required
+        >
+
+    </div>
+
+    <div class="mb-3">
+
+        <label class="form-label">
+            Время окончания
+        </label>
+
+        <input
+            type="text"
+            name="end_time"
+            class="form-control"
+            placeholder="11:00"
+            required
+        >
+
+    </div>
+
+    <button
+        class="btn btn-success"
+        type="submit"
+    >
+        Создать слот
+    </button>
+
+</form>
+
+<table class="table">
+
+    <tr>
+        <th>ID</th>
+        <th>Комната</th>
+        <th>Начало</th>
+        <th>Конец</th>
+        <th>Действие</th>
+    </tr>
+
+    {% for slot in slots %}
+
+    <tr>
+
+        <td>{{ slot.id }}</td>
+
+        <td>{{ slot.room.name }}</td>
+
+        <td>{{ slot.start_time }}</td>
+
+        <td>{{ slot.end_time }}</td>
+
+        <td>
+
+            <form
+                method="post"
+                action="/admin/slots/{{ slot.id }}/delete"
+            >
+
+            <button
+                type="submit"
+                class="btn btn-danger btn-sm"
+            >
+                Удалить
+            </button>
+
+            </form>
+
+        </td>
+
+    </tr>
+
+    {% endfor %}
+
+</table>
+
+{% endblock %}
