@@ -23,7 +23,10 @@ def register_and_get_token(
     return response.json()["access_token"]
 
 
-def test_user_cannot_delete_foreign_booking(client):
+def test_user_cannot_delete_foreign_booking(
+        client,
+        admin_token
+        ):
 
     client.post(
         "/api/auth/register",
@@ -58,6 +61,10 @@ def test_user_cannot_delete_foreign_booking(client):
         "/api/rooms",
         json={
             "name": "Permission Test Room"
+        },
+        headers={
+            "Authorization":
+                f"Bearer {admin_token}"
         }
     )
 
@@ -70,6 +77,10 @@ def test_user_cannot_delete_foreign_booking(client):
             "room_id": room_id,
             "start_time": "09:00",
             "end_time": "11:00"
+        },
+        headers={
+            "Authorization":
+                f"Bearer {admin_token}"
         }
     )
 
@@ -101,7 +112,9 @@ def test_user_cannot_delete_foreign_booking(client):
     assert response.status_code == 403
 
 
-def test_cannot_book_same_slot_twice(client):
+def test_cannot_book_same_slot_twice(
+        client,
+        admin_token):
 
     token = register_and_get_token(
         client,
@@ -113,6 +126,10 @@ def test_cannot_book_same_slot_twice(client):
         "/api/rooms",
         json={
             "name": "Room B"
+        },
+        headers={
+            "Authorization":
+                f"Bearer {admin_token}"
         }
     )
 
@@ -124,6 +141,10 @@ def test_cannot_book_same_slot_twice(client):
             "room_id": room_id,
             "start_time": "09:00",
             "end_time": "11:00"
+        },
+        headers={
+            "Authorization":
+                f"Bearer {admin_token}"
         }
     )
 
@@ -161,7 +182,10 @@ def test_cannot_book_same_slot_twice(client):
     )
 
 
-def test_get_my_bookings(client):
+def test_get_my_bookings(
+        client,
+        admin_token
+        ):
 
     token = register_and_get_token(
         client,
@@ -173,6 +197,10 @@ def test_get_my_bookings(client):
         "/api/rooms",
         json={
             "name": "Room C"
+        },
+        headers={
+            "Authorization":
+                f"Bearer {admin_token}"
         }
     )
 
@@ -184,6 +212,10 @@ def test_get_my_bookings(client):
             "room_id": room_id,
             "start_time": "09:00",
             "end_time": "11:00"
+        },
+        headers={
+            "Authorization":
+                f"Bearer {admin_token}"
         }
     )
 

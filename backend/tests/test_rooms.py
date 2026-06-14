@@ -9,12 +9,19 @@ def test_get_rooms(client):
         list
     )
 
-def test_create_room(client):
+def test_create_room(
+        client,
+        admin_token
+):
 
     response = client.post(
         "/api/rooms",
         json={
             "name": "Test Room"
+        },
+        headers={
+        "Authorization":
+            f"Bearer {admin_token}"
         }
     )
 

@@ -15,6 +15,11 @@ from app.db.models import (
     User
 )
 
+from app.core.security import (
+    hash_password,
+    create_access_token
+)
+
 import pytest
 
 
@@ -57,3 +62,29 @@ def clear_database():
     db.close()
 
     yield
+
+@pytest.fixture
+def admin_token():
+
+    db = TestingSessionLocal()
+
+    admin = User(
+        login="admin",
+        password_hash=hash_password("admin123"),
+        role="admin"
+    )
+
+    db.add(admin)
+    db.commit()
+    db.refresh(admin)
+
+    token = create_access_token(
+        {
+            "sub": str(admin.id),
+            "role": admin.role
+        }
+    )
+
+    db.close()
+
+    return token

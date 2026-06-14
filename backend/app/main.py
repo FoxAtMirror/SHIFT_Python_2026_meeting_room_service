@@ -26,7 +26,7 @@ async def lifespan(app):
     yield
 
 app = FastAPI(
-    title="Meeting Room Booking Service",
+    title="Meeting Room Booking Service",   
     lifespan=lifespan
 )
 

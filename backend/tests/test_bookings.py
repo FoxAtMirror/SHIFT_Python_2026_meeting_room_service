@@ -22,7 +22,10 @@ def get_token(client, login, password):
     return response.json()["access_token"]
 
 
-def test_create_booking(client):
+def test_create_booking(
+        client,
+        admin_token
+):
 
     token = get_token(
         client,
@@ -34,6 +37,10 @@ def test_create_booking(client):
         "/api/rooms",
         json={
             "name": "Room A"
+        },
+        headers={
+            "Authorization":
+                f"Bearer {admin_token}"
         }
     )
 
@@ -45,6 +52,10 @@ def test_create_booking(client):
             "room_id": room_id,
             "start_time": "09:00",
             "end_time": "11:00"
+        },
+        headers={
+            "Authorization":
+                f"Bearer {admin_token}"
         }
     )
 
