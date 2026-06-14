@@ -49,6 +49,17 @@
                 Мои бронирования
             </a>
 
+            {% if current_user and current_user.role == "admin" %}
+
+            <a
+                href="/admin"
+                class="btn btn-warning btn-sm me-2"
+            >
+                Админ
+            </a>
+
+{% endif %}
+
             <a
                 href="/logout"
                 class="btn btn-outline-light btn-sm"

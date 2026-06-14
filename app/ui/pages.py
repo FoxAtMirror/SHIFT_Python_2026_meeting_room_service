@@ -21,10 +21,17 @@ from app.core.security import create_access_token
 
 from datetime import date
 
-from app.ui.dependencies_ui import get_current_user_ui
+from app.ui.dependencies_ui import (
+    get_current_user_ui,
+    get_admin_user_ui
+)
 
 from app.schemas.booking import BookingCreate
+from app.schemas.room import RoomCreate
 from app.services.booking_service import BookingService
+
+from app.services.slot_service import SlotService
+from app.schemas.slot import SlotCreate
 
 router = APIRouter()
 
@@ -253,6 +260,130 @@ def create_booking_ui(
 
     return RedirectResponse(
         f"/rooms/{room_id}?booking_date={booking_date}",
+        status_code=303
+    )
+
+@router.get("/admin")
+def admin_page(
+    request: Request,
+    current_user = Depends(
+        get_admin_user_ui
+    )
+):
+
+    return templates.TemplateResponse(
+        request=request,
+        name="admin_dashboard.html",
+        context={
+            "current_user": current_user
+        }
+    )
+
+@router.get("/admin/rooms")
+def admin_rooms_page(
+    request: Request,
+    db: Session = Depends(get_db),
+    current_user = Depends(
+        get_admin_user_ui
+    )
+):
+
+    rooms = RoomService.get_rooms(db)
+
+    return templates.TemplateResponse(
+        request=request,
+        name="admin_rooms.html",
+        context={
+            "current_user": current_user,
+            "rooms": rooms
+        }
+    )
+
+@router.post("/admin/rooms")
+def create_room_ui(
+    room_name: str = Form(),
+    db: Session = Depends(get_db),
+    current_user = Depends(
+        get_admin_user_ui
+    )
+):
+
+    room = RoomCreate(
+        name=room_name
+    )
+
+    RoomService.create_room(
+        db,
+        room
+    )
+
+    return RedirectResponse(
+        "/admin/rooms",
+        status_code=303
+    )
+
+@router.get("/admin/slots")
+def admin_slots_page(
+    request: Request,
+    db: Session = Depends(get_db),
+    current_user = Depends(
+        get_admin_user_ui
+    )
+):
+
+    rooms = RoomService.get_rooms(db)
+
+    print("ROOMS:")
+    for room in rooms:
+        print(room.id, room.name)
+
+    slots = []
+
+    for room in rooms:
+
+        room_slots = (
+            SlotService.get_room_slots(
+                db,
+                room.id
+            )
+        )
+
+        slots.extend(room_slots)
+
+    return templates.TemplateResponse(
+        request=request,
+        name="admin_slots.html",
+        context={
+            "current_user": current_user,
+            "rooms": rooms,
+            "slots": slots
+        }
+    )
+
+@router.post("/admin/slots")
+def create_slot_ui(
+    room_id: int = Form(),
+    start_time: str = Form(),
+    end_time: str = Form(),
+    db: Session = Depends(get_db),
+    current_user = Depends(
+        get_admin_user_ui
+    )
+):
+
+    slot = SlotCreate(
+        room_id=room_id,
+        start_time=start_time,
+        end_time=end_time
+    )
+
+    SlotService.create_slot(
+        db,
+        slot
+    )
+
+    return RedirectResponse(
+        "/admin/slots",
         status_code=303
     )
 
