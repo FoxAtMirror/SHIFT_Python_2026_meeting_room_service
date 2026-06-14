@@ -1,15 +1,14 @@
-from datetime import datetime, timedelta, UTC
+from datetime import (
+    datetime, 
+    timedelta, 
+    UTC
+)
 
 from jose import JWTError, jwt
 from passlib.context import CryptContext
-
-
-SECRET_KEY = "SUPER_SECRET_KEY_CHANGE_ME"
+from app.core.config import settings
 
 ALGORITHM = "HS256"
-
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
-
 
 pwd_context = CryptContext(
     schemes=["bcrypt"],
@@ -40,7 +39,7 @@ def create_access_token(data: dict):
     to_encode = data.copy()
 
     expire = datetime.now(UTC) + timedelta(
-        minutes=ACCESS_TOKEN_EXPIRE_MINUTES
+        minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES
     )
 
     to_encode.update(
@@ -51,7 +50,7 @@ def create_access_token(data: dict):
 
     return jwt.encode(
         to_encode,
-        SECRET_KEY,
+        settings.MEETING_ROOM_SERVICE_SECRET_KEY,
         algorithm=ALGORITHM
     )
 
@@ -60,7 +59,7 @@ def decode_access_token(token: str):
     try:
         payload = jwt.decode(
             token,
-            SECRET_KEY,
+            settings.MEETING_ROOM_SERVICE_SECRET_KEY,
             algorithms=[ALGORITHM]
         )
 
