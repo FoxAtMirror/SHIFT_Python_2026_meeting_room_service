@@ -1,1 +1,0 @@
-CREATE DATABASE meeting_room_test;
