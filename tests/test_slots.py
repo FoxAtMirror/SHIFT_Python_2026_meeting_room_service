@@ -1,7 +1,7 @@
 def test_get_slots_for_nonexistent_room(client):
 
     response = client.get(
-        "/slots/room/999999"
+        "/api/slots/room/999999"
     )
 
     assert response.status_code == 200

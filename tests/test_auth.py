@@ -1,7 +1,7 @@
 def test_register(client):
 
     response = client.post(
-        "/auth/register",
+        "/api/auth/register",
         json={
             "login": "test_user_1",
             "password": "12345"
@@ -13,7 +13,7 @@ def test_register(client):
 def test_login(client):
 
     response = client.post(
-        "/auth/login",
+        "/api/auth/login",
         data={
             "username": "test_user_1",
             "password": "wrong_password"
@@ -30,7 +30,7 @@ def test_login(client):
 def test_invalid_token(client):
 
     response = client.get(
-        "/auth/me",
+        "/api/auth/me",
         headers={
             "Authorization": "Bearer invalid_token"
         }

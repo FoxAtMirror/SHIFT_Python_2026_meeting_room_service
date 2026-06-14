@@ -5,7 +5,7 @@ def register_and_get_token(
 ):
 
     client.post(
-        "/auth/register",
+        "/api/auth/register",
         json={
             "login": username,
             "password": password
@@ -13,7 +13,7 @@ def register_and_get_token(
     )
 
     response = client.post(
-        "/auth/login",
+        "/api/auth/login",
         data={
             "username": username,
             "password": password
@@ -26,7 +26,7 @@ def register_and_get_token(
 def test_user_cannot_delete_foreign_booking(client):
 
     client.post(
-        "/auth/register",
+        "/api/auth/register",
         json={
             "login": "user_a",
             "password": "12345"
@@ -40,7 +40,7 @@ def test_user_cannot_delete_foreign_booking(client):
     )
 
     client.post(
-        "/auth/register",
+        "/api/auth/register",
         json={
             "login": "user_b",
             "password": "12345"
@@ -55,7 +55,7 @@ def test_user_cannot_delete_foreign_booking(client):
 
 
     room_response = client.post(
-        "/rooms",
+        "/api/rooms",
         json={
             "name": "Permission Test Room"
         }
@@ -65,7 +65,7 @@ def test_user_cannot_delete_foreign_booking(client):
 
 
     slot_response = client.post(
-        "/slots",
+        "/api/slots",
         json={
             "room_id": room_id,
             "start_time": "09:00",
@@ -77,7 +77,7 @@ def test_user_cannot_delete_foreign_booking(client):
 
 
     booking_response = client.post(
-        "/bookings",
+        "/api/bookings",
         json={
             "room_id": room_id,
             "slot_id": slot_id,
@@ -92,7 +92,7 @@ def test_user_cannot_delete_foreign_booking(client):
 
 
     response = client.delete(
-        f"/bookings/{booking_id}",
+        f"/api/bookings/{booking_id}",
         headers={
             "Authorization": f"Bearer {token_b}"
         }
@@ -110,7 +110,7 @@ def test_cannot_book_same_slot_twice(client):
     )
 
     room = client.post(
-        "/rooms",
+        "/api/rooms",
         json={
             "name": "Room B"
         }
@@ -119,7 +119,7 @@ def test_cannot_book_same_slot_twice(client):
     room_id = room.json()["id"]
 
     slot = client.post(
-        "/slots",
+        "/api/slots",
         json={
             "room_id": room_id,
             "start_time": "09:00",
@@ -136,7 +136,7 @@ def test_cannot_book_same_slot_twice(client):
     }
 
     first = client.post(
-        "/bookings",
+        "/api/bookings",
         json=booking_data,
         headers={
             "Authorization": f"Bearer {token}"
@@ -146,7 +146,7 @@ def test_cannot_book_same_slot_twice(client):
     assert first.status_code == 200
 
     second = client.post(
-        "/bookings",
+        "/api/bookings",
         json=booking_data,
         headers={
             "Authorization": f"Bearer {token}"
@@ -170,7 +170,7 @@ def test_get_my_bookings(client):
     )
 
     room = client.post(
-        "/rooms",
+        "/api/rooms",
         json={
             "name": "Room C"
         }
@@ -179,7 +179,7 @@ def test_get_my_bookings(client):
     room_id = room.json()["id"]
 
     slot = client.post(
-        "/slots",
+        "/api/slots",
         json={
             "room_id": room_id,
             "start_time": "09:00",
@@ -190,7 +190,7 @@ def test_get_my_bookings(client):
     slot_id = slot.json()["id"]
 
     client.post(
-        "/bookings",
+        "/api/bookings",
         json={
             "room_id": room_id,
             "slot_id": slot_id,
@@ -202,7 +202,7 @@ def test_get_my_bookings(client):
     )
 
     response = client.get(
-        "/bookings/my",
+        "/api/bookings/my",
         headers={
             "Authorization": f"Bearer {token}"
         }

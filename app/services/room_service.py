@@ -32,6 +32,7 @@ class RoomService:
 
     @staticmethod
     def get_room_availability(
+
         db,
         room_id,
         booking_date
@@ -70,3 +71,14 @@ class RoomService:
             }
             for slot in slots
         ]
+    @staticmethod
+    def get_room_by_id(
+        db,
+        room_id
+    ):
+
+        return (
+            db.query(Room)
+            .filter(Room.id == room_id)
+            .first()
+        )

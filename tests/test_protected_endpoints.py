@@ -1,7 +1,7 @@
 def test_me_requires_auth(client):
 
     response = client.get(
-        "/auth/me"
+        "/api/auth/me"
     )
 
     assert response.status_code == 401
@@ -10,7 +10,7 @@ def test_me_requires_auth(client):
 def test_my_bookings_requires_auth(client):
 
     response = client.get(
-        "/bookings/my"
+        "/api/bookings/my"
     )
 
     assert response.status_code == 401

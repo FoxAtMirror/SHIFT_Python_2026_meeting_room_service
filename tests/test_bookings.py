@@ -4,7 +4,7 @@ from datetime import date
 def get_token(client, login, password):
 
     client.post(
-        "/auth/register",
+        "/api/auth/register",
         json={
             "login": login,
             "password": password
@@ -12,7 +12,7 @@ def get_token(client, login, password):
     )
 
     response = client.post(
-        "/auth/login",
+        "/api/auth/login",
         data={
             "username": login,
             "password": password
@@ -31,7 +31,7 @@ def test_create_booking(client):
     )
 
     room = client.post(
-        "/rooms",
+        "/api/rooms",
         json={
             "name": "Room A"
         }
@@ -40,7 +40,7 @@ def test_create_booking(client):
     room_id = room.json()["id"]
 
     slot = client.post(
-        "/slots",
+        "/api/slots",
         json={
             "room_id": room_id,
             "start_time": "09:00",
@@ -51,7 +51,7 @@ def test_create_booking(client):
     slot_id = slot.json()["id"]
 
     response = client.post(
-        "/bookings",
+        "/api/bookings",
         json={
             "room_id": room_id,
             "slot_id": slot_id,

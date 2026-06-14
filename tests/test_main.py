@@ -1,8 +1,9 @@
 def test_root(client):
+
     response = client.get("/")
 
     assert response.status_code == 200
 
-    assert response.json() == {
-        "message": "Service is running"
-    }
+    assert "<html" in response.text.lower()
+
+    assert "Meeting Room Booking Service" in response.text

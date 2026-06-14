@@ -1,7 +1,7 @@
 def test_me_requires_auth(client):
 
     response = client.get(
-        "/auth/me"
+        "/api/auth/me"
     )
 
     assert response.status_code == 401
@@ -10,7 +10,7 @@ def test_me_requires_auth(client):
 def test_my_bookings_requires_auth(client):
 
     response = client.get(
-        "/bookings/my"
+        "/api/bookings/my"
     )
 
     assert response.status_code == 401
@@ -19,7 +19,7 @@ def test_my_bookings_requires_auth(client):
 def test_create_booking_requires_auth(client):
 
     response = client.post(
-        "/bookings",
+        "/api/bookings",
         json={
             "room_id": 1,
             "slot_id": 1,
@@ -33,7 +33,7 @@ def test_create_booking_requires_auth(client):
 def test_invalid_token(client):
 
     response = client.get(
-        "/auth/me",
+        "/api/auth/me",
         headers={
             "Authorization": "Bearer invalid_token"
         }

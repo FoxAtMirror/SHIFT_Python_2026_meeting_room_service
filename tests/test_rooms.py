@@ -1,6 +1,6 @@
 def test_get_rooms(client):
 
-    response = client.get("/rooms")
+    response = client.get("/api/rooms")
 
     assert response.status_code == 200
 
@@ -12,7 +12,7 @@ def test_get_rooms(client):
 def test_create_room(client):
 
     response = client.post(
-        "/rooms",
+        "/api/rooms",
         json={
             "name": "Test Room"
         }
