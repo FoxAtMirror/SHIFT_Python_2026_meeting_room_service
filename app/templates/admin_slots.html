@@ -83,6 +83,7 @@
         <th>Комната</th>
         <th>Начало</th>
         <th>Конец</th>
+        <th>Действие</th>
     </tr>
 
     {% for slot in slots %}
@@ -96,6 +97,24 @@
         <td>{{ slot.start_time }}</td>
 
         <td>{{ slot.end_time }}</td>
+
+        <td>
+
+            <form
+                method="post"
+                action="/admin/slots/{{ slot.id }}/delete"
+            >
+
+            <button
+                type="submit"
+                class="btn btn-danger btn-sm"
+            >
+                Удалить
+            </button>
+
+            </form>
+
+        </td>
 
     </tr>
 

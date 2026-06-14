@@ -99,13 +99,6 @@ def get_me(
         "role": current_user.role
     }
 
-@router.get("/test-user")
-def test_user(
-    current_user: User = Depends(get_current_user)
-):
-    return {
-        "login": current_user.login
-    }
 
 @router.get("/users")
 def get_users(

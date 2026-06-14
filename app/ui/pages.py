@@ -333,10 +333,6 @@ def admin_slots_page(
 
     rooms = RoomService.get_rooms(db)
 
-    print("ROOMS:")
-    for room in rooms:
-        print(room.id, room.name)
-
     slots = []
 
     for room in rooms:
@@ -400,3 +396,22 @@ def logout():
     )
 
     return response
+
+@router.post("/admin/slots/{slot_id}/delete")
+def delete_slot_ui(
+    slot_id: int,
+    db: Session = Depends(get_db),
+    current_user = Depends(
+        get_admin_user_ui
+    )
+):
+
+    SlotService.delete_slot(
+        db,
+        slot_id
+    )
+
+    return RedirectResponse(
+        "/admin/slots",
+        status_code=303
+    )

@@ -1,4 +1,5 @@
 from app.db.models import Slot
+from fastapi import HTTPException
 
 
 class SlotService:
@@ -36,3 +37,29 @@ class SlotService:
             )
             .all()
         )
+
+    @staticmethod
+    def delete_slot(
+        db,
+        slot_id
+    ):
+
+        slot = (
+            db.query(Slot)
+            .filter(
+                Slot.id == slot_id
+            )
+            .first()
+        )
+
+        if not slot:
+
+            raise HTTPException(
+                status_code=404,
+                detail="Slot not found"
+            )
+
+        db.delete(slot)
+
+        db.commit()
+    
