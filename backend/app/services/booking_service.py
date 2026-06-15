@@ -1,5 +1,5 @@
 from fastapi import HTTPException
-
+from datetime import date
 from app.db.models import Booking
 
 
@@ -11,6 +11,13 @@ class BookingService:
         booking,
         user_id
     ):
+
+        if booking.date < date.today():
+
+            raise HTTPException(
+                status_code=400,
+                detail="Cannot book past dates"
+            )
 
         existing_booking = (
             db.query(Booking)
@@ -97,4 +104,20 @@ class BookingService:
     @staticmethod
     def get_all_bookings(db):
 
-        return db.query(Booking).all()
+        bookings = (
+            db.query(Booking)
+            .all()
+        )
+
+        return [
+            {
+                "id": booking.id,
+                "user_login": booking.user.login,
+                "room_name": booking.room.name,
+                "slot_time":
+                    f"{booking.slot.start_time.strftime('%H:%M')} - "
+                    f"{booking.slot.end_time.strftime('%H:%M')}",
+                "date": booking.date
+            }
+            for booking in bookings
+        ]

@@ -8,7 +8,8 @@ from app.services.booking_service import BookingService
 
 from app.schemas.booking import (
     BookingCreate,
-    BookingResponse
+    BookingResponse,
+    BookingAdminResponse
 )
 
 from app.core.dependencies import (
@@ -68,12 +69,12 @@ def delete_booking(
         "message": "Booking deleted"
     }
 
-@router.get( #добавить пейджирование
+@router.get(
     "/",
+    response_model=list[BookingAdminResponse],
     dependencies=[Depends(get_admin_user)]
 )
 def get_all_bookings(
     db: Session = Depends(get_db)
 ):
     return BookingService.get_all_bookings(db)
-

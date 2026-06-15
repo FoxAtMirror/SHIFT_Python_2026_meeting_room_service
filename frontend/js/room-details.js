@@ -19,6 +19,33 @@ document.getElementById(
 ).textContent =
     `Комната #${roomId}`;
 
+const now =
+    new Date();
+
+const today =
+    `${now.getFullYear()}-${
+        String(
+            now.getMonth() + 1
+        ).padStart(2, "0")
+    }-${
+        String(
+            now.getDate()
+        ).padStart(2, "0")
+    }`;
+
+const dateInput =
+    document.getElementById(
+        "booking-date"
+    );
+
+dateInput.value =
+    today;
+
+dateInput.min =
+    today;
+
+loadSlots();
+
 document
     .getElementById(
         "load-slots-btn"

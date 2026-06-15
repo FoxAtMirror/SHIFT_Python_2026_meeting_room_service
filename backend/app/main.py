@@ -1,7 +1,8 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from contextlib import asynccontextmanager
-
+from sqlalchemy.orm import Session
+from app.core.security import hash_password
 from app.db.database import engine, Base
 from app.db.models import (
     User,
@@ -18,11 +19,39 @@ from app.api import (
 
 from fastapi.middleware.cors import CORSMiddleware
 
+def create_admin():
+
+    db = Session(bind=engine)
+
+    admin = (
+        db.query(User)
+        .filter(
+            User.login == "admin"
+        )
+        .first()
+    )
+
+    if not admin:
+
+        admin = User(
+            login="admin",
+            password_hash=hash_password(
+                "admin"
+            ),
+            role="admin"
+        )
+
+        db.add(admin)
+
+        db.commit()
+
+    db.close()
 
 @asynccontextmanager
 async def lifespan(app):
 
     Base.metadata.create_all(bind=engine)
+    create_admin()
     yield
 
 app = FastAPI(

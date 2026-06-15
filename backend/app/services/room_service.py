@@ -4,6 +4,10 @@ from app.db.models import (
     Booking
 )
 
+from datetime import (
+    date,
+    datetime
+)
 
 class RoomService:
 
@@ -43,6 +47,9 @@ class RoomService:
             .filter(
                 Slot.room_id == room_id
             )
+            .order_by(
+                Slot.start_time
+            )
             .all()
         )
 
@@ -60,17 +67,35 @@ class RoomService:
             for booking in bookings
         }
 
-        return [
-            {
-                "slot_id": slot.id,
-                "start_time": slot.start_time,
-                "end_time": slot.end_time,
-                "available": (
-                    slot.id not in booked_slot_ids
-                )
-            }
-            for slot in slots
-        ]
+        current_time = (
+            datetime.now()
+            .time()
+        )
+
+        result = []
+
+        for slot in slots:
+
+        
+            if (
+                booking_date == date.today()
+                and slot.end_time <= current_time
+            ):
+                continue
+
+            result.append(
+                {
+                    "slot_id": slot.id,
+                    "start_time": slot.start_time,
+                    "end_time": slot.end_time,
+                    "available": (
+                        slot.id not in booked_slot_ids
+                    )
+                }
+            )
+
+        return result
+    
     @staticmethod
     def get_room_by_id(
         db,

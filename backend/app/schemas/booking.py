@@ -21,3 +21,11 @@ class BookingResponse(BaseModel):
     model_config = ConfigDict(
         from_attributes=True
     )
+
+class BookingAdminResponse(BaseModel):
+    
+    id: int
+    user_login: str
+    room_name: str
+    slot_time: str
+    date: date

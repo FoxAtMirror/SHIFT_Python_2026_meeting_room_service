@@ -17,8 +17,6 @@ document.addEventListener(
 
         try {
 
-            await loadCurrentUser();
-
             await loadRooms();
 
         } catch (error) {
@@ -34,33 +32,6 @@ document.addEventListener(
         }
     }
 );
-
-async function loadCurrentUser() {
-
-    const response =
-        await fetch(
-            `${API_BASE_URL}/auth/me`,
-            {
-                headers:
-                    getAuthHeaders()
-            }
-        );
-
-    if (!response.ok) {
-
-        throw new Error(
-            "Unauthorized"
-        );
-    }
-
-    const user =
-        await response.json();
-
-    document.getElementById(
-        "user-info"
-    ).textContent =
-        `Привет, ${user.login} (${user.role})`;
-}
 
 async function loadRooms() {
 
@@ -97,20 +68,3 @@ async function loadRooms() {
         );
     });
 }
-
-document
-    .getElementById(
-        "logout-btn"
-    )
-    .addEventListener(
-        "click",
-        () => {
-
-            localStorage.removeItem(
-                "access_token"
-            );
-
-            window.location.href =
-                "login.html";
-        }
-    );

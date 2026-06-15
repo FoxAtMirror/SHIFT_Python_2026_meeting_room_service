@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Регистрация</title>
+
+    <link
+        rel="stylesheet"
+        href="../css/main.css"
+    >
+</head>
+<body>
+
+<h1>Регистрация</h1>
+
+<form id="register-form">
+
+    <label>
+        Логин
+    </label>
+
+    <input
+        type="text"
+        id="login"
+        required
+    >
+
+    <br><br>
+
+    <label>
+        Пароль
+    </label>
+
+    <input
+        type="password"
+        id="password"
+        required
+    >
+
+    <br><br>
+
+    <button type="submit">
+        Зарегистрироваться
+    </button>
+
+</form>
+
+<p id="error-message"></p>
+
+<p>
+    Уже есть аккаунт?
+    <a href="login.html">
+        Войти
+    </a>
+</p>
+
+<script src="../js/api-client.js"></script>
+<script src="../js/register.js"></script>
+
+</body>
+</html>

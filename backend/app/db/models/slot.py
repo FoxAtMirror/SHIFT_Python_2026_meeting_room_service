@@ -1,7 +1,7 @@
 from sqlalchemy import (
     Column,
     Integer,
-    String,
+    Time,
     ForeignKey
 )
 
@@ -20,12 +20,12 @@ class Slot(Base):
     )
 
     start_time = Column(
-        String,
+        Time,
         nullable=False
     )
 
     end_time = Column(
-        String,
+        Time,
         nullable=False
     )
 
