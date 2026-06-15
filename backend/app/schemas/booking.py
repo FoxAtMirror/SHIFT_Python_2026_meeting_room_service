@@ -29,3 +29,10 @@ class BookingAdminResponse(BaseModel):
     room_name: str
     slot_time: str
     date: date
+
+class UserBookingResponse(BaseModel):
+
+    id: int
+    room_name: str
+    slot_time: str
+    date: date

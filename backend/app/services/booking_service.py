@@ -57,13 +57,25 @@ class BookingService:
         user_id
     ):
 
-        return (
+        bookings = (
             db.query(Booking)
             .filter(
                 Booking.user_id == user_id
             )
             .all()
         )
+
+        return [
+            {
+                "id": booking.id,
+                "room_name": booking.room.name,
+                "slot_time":
+                    f"{booking.slot.start_time.strftime('%H:%M')} - "
+                    f"{booking.slot.end_time.strftime('%H:%M')}",
+                "date": booking.date
+            }
+            for booking in bookings
+        ]
 
     @staticmethod
     def delete_booking(

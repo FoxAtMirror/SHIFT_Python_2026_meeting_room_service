@@ -63,30 +63,23 @@ async function loadBookings() {
             document.createElement("div");
 
         bookingElement.innerHTML = `
-            <p>
-                Бронирование #${booking.id}
-            </p>
+        <p>
+            Бронирование #${booking.id}
+            |
+            Комната: ${booking.room_name}
+            |
+            Время: ${booking.slot_time}
+            |
+            Дата: ${booking.date}
+        </p>
 
-            <p>
-                Комната: ${booking.room_id}
-            </p>
+        <button
+            onclick="deleteBooking(${booking.id})">
+            Отменить
+        </button>
 
-            <p>
-                Слот: ${booking.slot_id}
-            </p>
-
-            <p>
-                Дата: ${booking.date}
-            </p>
-
-            <button
-                onclick="deleteBooking(${booking.id})"
-            >
-                Отменить
-            </button>
-
-            <hr>
-        `;
+        <hr>
+    `;
 
         container.appendChild(
             bookingElement
