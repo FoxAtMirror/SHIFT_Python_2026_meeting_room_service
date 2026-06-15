@@ -40,10 +40,28 @@
 
 ```bash
 git clone https://github.com/FoxAtMirror/SHIFT_Python_2026_meeting_room_service.git
-cd meeting-room-service
+cd SHIFT_Python_2026_meeting_room_service
 ```
 
-### 2. Запустить приложение
+### 2. Создать файл .env и .env.docker
+
+Создать ./backend/.env прописать секретный ключ, ДБ URL и Тест ДБ URL для локального запуска
+
+```bash
+MEETING_ROOM_SERVICE_SECRET_KEY=MEETING_ROOM_SERVICE_SECRET_KEY
+DATABASE_URL=postgresql://postgres:0000@localhost:5432/meeting_room
+TEST_DATABASE_URL=postgresql://postgres:0000@localhost:5432/meeting_room_test
+```
+
+И соответственно для .env.docker
+
+```bash
+MEETING_ROOM_SERVICE_SECRET_KEY=MEETING_ROOM_SERVICE_SECRET_KEY
+DATABASE_URL=postgresql://postgres:0000@db:5432/meeting_room
+TEST_DATABASE_URL=postgresql://postgres:0000@db:5432/meeting_room_test
+```
+
+### 3. Запустить приложение
 
 ```bash
 docker compose up --build
