@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from contextlib import asynccontextmanager
+
 from app.db.database import engine, Base
 from app.db.models import (
     User,
@@ -9,12 +10,11 @@ from app.db.models import (
     Booking
 )
 from app.api import (
-    slots
+    slots,
+    auth,
+    bookings,
+    rooms
 )
-from app.ui import pages
-
-from app.ui.middleware import AuthMiddleware
-from app.api import auth, bookings, rooms
 
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -37,10 +37,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-app.add_middleware(
-    AuthMiddleware
-)
 app.include_router(
     auth.router,
     prefix="/api"
@@ -57,12 +53,3 @@ app.include_router(
     bookings.router,
     prefix="/api"
 )
-app.include_router(
-    pages.router
-)
-
-#app.mount(
-#    "/static",
-#    StaticFiles(directory="app/static"),
-#    name="static"
-#)

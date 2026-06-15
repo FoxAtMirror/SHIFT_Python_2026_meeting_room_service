@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Комнаты</title>
+
+    <link rel="stylesheet"
+          href="../css/main.css">
+</head>
+<body>
+
+<nav>
+
+    <a href="rooms-list.html">
+        Комнаты
+    </a>
+
+    |
+
+    <a href="my-bookings.html">
+        Мои бронирования
+    </a>
+
+    |
+
+    <a
+        href="admin-dashboard.html"
+        id="admin-link"
+        style="display:none;"
+    >
+        Админ
+    </a>
+
+    |
+
+    <button id="logout-btn">
+        Выйти
+    </button>
+
+</nav>
+
+<hr>
+    
+<h1>Meeting Room Service</h1>
+
+<p id="user-info"></p>
+
+<h2>Список комнат</h2>
+
+<div id="rooms-container">
+
+</div>
+
+<button id="logout-btn">
+    Выйти
+</button>
+
+<script src="../js/api-client.js"></script>
+<script src="../js/navbar.js"></script>
+<script src="../js/rooms.js"></script>
+
+</body>
+</html>

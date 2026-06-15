@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Управление слотами</title>
+
+    <link rel="stylesheet"
+          href="../css/main.css">
+</head>
+<body>
+
+<nav>
+
+    <a href="rooms-list.html">
+        Комнаты
+    </a>
+
+    |
+
+    <a href="my-bookings.html">
+        Мои бронирования
+    </a>
+
+    |
+
+    <a href="admin-dashboard.html">
+        Админ
+    </a>
+
+    |
+
+    <button id="logout-btn">
+        Выйти
+    </button>
+
+</nav>
+
+<hr>
+
+<h1>Управление слотами</h1>
+
+<h2>Создать слот</h2>
+
+<label>
+    Комната
+</label>
+
+<select id="room-select">
+
+</select>
+
+<br><br>
+
+<label>
+    Начало
+</label>
+
+<input
+    type="time"
+    id="start-time"
+/>
+
+<br><br>
+
+<label>
+    Конец
+</label>
+
+<input
+    type="time"
+    id="end-time"
+/>
+
+<br><br>
+
+<button id="create-slot-btn">
+    Создать слот
+</button>
+
+<hr>
+
+<h2>Слоты комнаты</h2>
+
+<div id="slots-container">
+
+</div>
+
+<script src="../js/api-client.js"></script>
+<script src="../js/navbar.js"></script>
+<script src="../js/admin-slots.js"></script>
+
+</body>
+</html>

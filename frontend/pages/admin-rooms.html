@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Управление комнатами</title>
+
+    <link rel="stylesheet"
+          href="../css/main.css">
+</head>
+<body>
+
+<nav>
+
+    <a href="rooms-list.html">
+        Комнаты
+    </a>
+
+    |
+
+    <a href="my-bookings.html">
+        Мои бронирования
+    </a>
+
+    |
+
+    <a href="admin-dashboard.html">
+        Админ
+    </a>
+
+    |
+
+    <button id="logout-btn">
+        Выйти
+    </button>
+
+</nav>
+
+<hr>
+
+<h1>Управление комнатами</h1>
+
+<h2>Создать комнату</h2>
+
+<input
+    type="text"
+    id="room-name"
+    placeholder="Название комнаты"
+/>
+
+<button id="create-room-btn">
+    Создать
+</button>
+
+<hr>
+
+<h2>Список комнат</h2>
+
+<div id="rooms-container"></div>
+
+<script src="../js/api-client.js"></script>
+<script src="../js/navbar.js"></script>
+<script src="../js/admin-rooms.js"></script>
+
+</body>
+</html>

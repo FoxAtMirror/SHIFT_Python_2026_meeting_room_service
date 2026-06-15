@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+
+    <link rel="stylesheet" href="../css/main.css">
+</head>
+<body>
+
+<h1>Meeting Room Service</h1>
+
+<form id="login-form">
+
+    <div>
+        <label>Логин</label>
+        <input
+                type="text"
+                id="login"
+                required
+        >
+    </div>
+
+    <div>
+        <label>Пароль</label>
+        <input
+                type="password"
+                id="password"
+                required
+        >
+    </div>
+
+    <button type="submit">
+        Войти
+    </button>
+
+</form>
+
+<p id="error-message"></p>
+
+<script src="../js/api-client.js"></script>
+<script src="../js/auth.js"></script>
+
+</body>
+</html>
