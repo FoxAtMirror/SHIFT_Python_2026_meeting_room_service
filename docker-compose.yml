@@ -21,11 +21,13 @@ services:
 
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./backend/docker/init.sql:/docker-entrypoint-initdb.d/init.sql
 
   api:
 
-    build: .
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
 
     container_name: meeting-room-api
 
@@ -33,12 +35,25 @@ services:
       - "8000:8000"
 
     env_file:
-      - .env.docker
-        
+      - ./backend/.env.docker
 
     depends_on:
       db:
         condition: service_healthy
 
+  frontend:
+
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+
+    container_name: meeting-room-frontend
+
+    ports:
+    - "5500:80"
+
+    depends_on:
+      - api
+      
 volumes:
   postgres_data:
